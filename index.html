@@ -1,0 +1,2809 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <title>نظام متابعة اليوم الدراسي</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+
+    /* --- START: Base and Colorful Design --- */
+
+    body {
+
+        font-family: 'Cairo', Arial, sans-serif;
+
+        direction: rtl;
+
+        text-align: right;
+
+        margin: 0;
+
+        padding: 0;
+
+        background: linear-gradient(135deg, #004681 0%, #000f90 100%);
+
+        min-height: 100vh;
+
+        overflow-x: hidden;
+
+        position: relative;
+
+    }
+
+
+
+    body::before {
+
+        content: '';
+
+        position: absolute;
+
+        top: 5%;
+
+        left: -80px;
+
+        width: 250px;
+
+        height: 250px;
+
+        background: radial-gradient(circle, rgb(0 199 255 / 50%) 0%, rgba(255, 160, 172, 0) 70%);
+
+        border-radius: 50%;
+
+        z-index: 0;
+
+    }
+
+
+
+    body::after {
+
+        content: '';
+
+        position: absolute;
+
+        bottom: 5%;
+
+        right: -100px;
+
+        width: 350px;
+
+        height: 350px;
+
+        background: radial-gradient(circle, rgb(0 255 49 / 40%) 0%, rgba(128, 216, 255, 0) 70%);
+
+        border-radius: 50%;
+
+        z-index: 0;
+
+    }
+
+
+
+    .container {
+
+        max-width: 900px;
+
+        margin: 40px auto;
+
+        background-color: rgba(255, 255, 255, 0.95);
+
+        padding: 30px;
+
+        border-radius: 25px;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+        position: relative;
+
+        z-index: 1;
+
+        padding-top: 20px;
+
+    }
+
+
+
+    .title-wrapper {
+
+        text-align: center;
+
+        margin-bottom: 20px;
+
+    }
+
+
+
+    h1 {
+
+        color: #6a1b9a;
+
+        font-size: 2.5em;
+
+        font-weight: 700;
+
+        margin-top: 10px;
+
+        position: relative;
+
+        display: inline-block;
+
+        padding-bottom: 10px;
+
+        /* padding-right: 70px; /* REMOVED */
+
+    }
+
+    h1::before {
+
+        content: '✨';
+
+        position: absolute;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        font-size: 0.7em;
+
+        opacity: 0.9;
+
+        left: -35px;
+
+    }
+
+    h1::after {
+
+        content: '';
+
+        position: absolute;
+
+        left: 10%;
+
+        right: 10%;
+
+        bottom: 0;
+
+        height: 4px;
+
+        background: linear-gradient(to right, #ff8a80, #80d8ff);
+
+        border-radius: 2px;
+
+    }
+
+
+
+    .info-bar {
+
+        background: linear-gradient(to left, #f4f4f4, #e7e7e7); /* New Gradient */
+
+        border-radius: 15px;
+
+        padding: 15px 25px;
+
+        margin-bottom: 30px;
+
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        display: flex;
+
+        justify-content: space-between; /* Keeps ends apart, middle centered */
+
+        align-items: center;
+
+        min-height: 180px; /* Adjusted height for 160px logos */
+
+        position: relative;
+
+    }
+
+
+
+    /* Wrapper for Ministry Logo */
+
+    .ministry-logo-wrapper {
+
+        background-color: transparent; /* Make wrapper transparent */
+
+        padding: 5px; /* Keep padding for spacing */
+
+        border-radius: 8px; /* Keep border radius */
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        height: 160px; /* New Size: 160px */
+
+        width: 160px; /* New Size: 160px */
+
+        box-sizing: border-box;
+
+        flex-shrink: 0;
+
+    }
+
+    /* Ministry Logo Image Styling */
+
+    .ministry-logo {
+
+        display: block;
+
+        height: 160px; /* New Size: 160px */
+
+        width: 160px; /* New Size: 160px */
+
+        object-fit: contain; /* Added for aspect ratio */
+
+        background-color: transparent;
+
+        padding: 0;
+
+        border-radius: 0;
+
+        box-shadow: none;
+
+    }
+
+
+
+    /* School Logo Styling */
+
+    .logo {
+
+        height: 160px; /* New Size: 160px */
+
+        width: 160px; /* New Size: 160px */
+
+        background-color: transparent; /* Make wrapper transparent */
+
+        padding: 5px; /* Keep padding for spacing */
+
+        border-radius: 8px; /* Keep border radius */
+
+        box-sizing: border-box;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        position: relative;
+
+    }
+
+    .logo > img {
+
+      display: block;
+
+      width: 160px; /* New Size: 160px */
+
+      height: 160px; /* New Size: 160px */
+
+      object-fit: contain; /* Added for aspect ratio */
+
+    }
+
+
+
+    .info-item {
+
+        font-weight: bold;
+
+        color: #333;
+
+        font-size: 1.1em;
+
+        flex-grow: 1; /* Allows it to take up space */
+
+        text-align: center; /* Center the text within its space */
+
+        padding-left: 20px; /* Adjust padding if needed */
+
+        padding-right: 20px;
+
+    }
+
+    /* --- START: New Current Period Style --- */
+
+    .info-item span { display: block; } /* Make spans stack */
+
+    #current-period-display { /* This style is still here, but the element itself is removed */
+
+        font-size: 1.2em;
+
+        color: #007bff; /* Blue color for emphasis */
+
+        margin-top: 8px;
+
+        font-weight: bold;
+
+    }
+
+    /* --- END: New Current Period Style --- */
+
+
+
+    /* --- START: Current Period Icon Styling --- */
+
+    #current-period-icon-container {
+
+        /* position: absolute; REMOVED */
+
+        /* top: 0px; REMOVED */
+
+        /* left: 50%; REMOVED */
+
+        /* transform: translateX(-50%); REMOVED */
+
+        width: 55px;
+
+        height: 55px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        /* z-index: 10; REMOVED */
+
+        border-radius: 8px;
+
+        margin: 10px auto 0 auto; /* ADDED: To center under date and provide top margin */
+
+    }
+
+
+
+    #current-period-icon-display {
+
+        font-size: 65px; /* Increased size to be more prominent */
+
+        color: #FFA500; /* Orange color for visibility */
+
+        line-height: 1;
+
+        font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; /* For better emoji rendering */
+
+    }
+
+    /* --- END: Current Period Icon Styling --- */
+
+
+
+    .form-row { display: flex; flex-wrap: wrap; margin-bottom: 15px; gap: 15px; }
+
+    .form-group { flex: 1; min-width: 150px; margin-bottom: 0; }
+
+    .form-row-triple .form-group { flex-basis: calc(33.333% - 10px); }
+
+    .form-row-double .form-group { flex-basis: calc(50% - 10px); }
+
+    .form-row-single .form-group { flex-basis: 100%; }
+
+
+
+    .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #6a1b9a; }
+
+    .form-group select, .form-group input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; background-color: #fff; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+
+    .form-group select:focus, .form-group input[type="text"]:focus { border-color: #8e2de2; box-shadow: 0 0 5px rgba(142, 45, 226, 0.3); outline: none; }
+
+
+
+    .buttons { text-align: center; margin-top: 30px; }
+
+    .buttons button:not(.fab-action-button):not(.modal-button) { padding: 12px 30px; margin: 5px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+
+    .buttons button:not(.fab-action-button):not(.modal-button):hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+
+    .buttons .save-button { background: linear-gradient(to right, #00c6ff, #0072ff); color: white; }
+
+    .buttons .save-button:hover { background: linear-gradient(to right, #00a6dd, #005cc8); }
+
+
+
+    .fab-container {
+
+        position: absolute;
+
+        top: 30px;
+
+        left: 30px;
+
+        z-index: 1001;
+
+    }
+
+    #fab-toggle { background: linear-gradient(135deg, #ff8a80, #ff5252); color: white; border: none; border-radius: 50%; width: 55px; height: 55px; font-size: 28px; line-height: 55px; text-align: center; box-shadow: 0 4px 15px rgba(255, 82, 82, 0.4); cursor: pointer; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s ease, transform 0.2s ease; }
+
+    #fab-toggle:hover { background: linear-gradient(135deg, #ff5252, #ff1744); transform: scale(1.1); }
+
+    #fab-menu { position: absolute; top: 0; left: calc(100% + 15px); width: max-content; display: flex; flex-direction: column; align-items: flex-start; visibility: hidden; opacity: 0; transform: translateX(-10px) scale(0.95); transform-origin: top left; transition: visibility 0s 0.2s, opacity 0.2s ease-in-out, transform 0.2s ease-in-out; }
+
+    #fab-menu.fab-menu-visible { visibility: visible; opacity: 1; transform: translateX(0) scale(1); transition-delay: 0s; }
+
+    .fab-action-button { padding: 10px 20px; margin-bottom: 10px; border-radius: 20px; background-color: #ffffff; color: #6a1b9a; border: 2px solid #e1bee7; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-size: 1.1em; font-weight: bold; white-space: nowrap; text-align: right; width: auto; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease; }
+
+    .fab-action-button:hover { background-color: #f3e5f5; border-color: #ce93d8; transform: translateX(-3px); }
+
+
+
+    .homework-table { margin-top: 40px; }
+
+    h2#homework-table-title { text-align: center; color: #6a1b9a; margin-bottom: 20px; }
+
+    .homework-table table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); border-radius: 10px; overflow: hidden; }
+
+    .homework-table th, .homework-table td { border: none; border-bottom: 1px solid #eee; padding: 12px 10px; text-align: center; word-break: break-word; font-size: 0.95em; }
+
+    .homework-table th { background: linear-gradient(to bottom, #e9e7f6, #adacff); color: #000000; font-weight: bold; border-bottom: 2px solid #b39ddb; }
+
+    .homework-table tbody tr { background-color: #fff; transition: background-color 0.2s ease; }
+
+    .homework-table tbody tr:nth-child(even) { background-color: #f9f6fc; }
+
+    .homework-table tbody tr:hover { background-color: #e1f5fe; }
+
+    .homework-table td:last-child { border-left: none; }
+
+    .homework-table td:first-child { border-right: none; }
+
+
+
+    /* --- Custom Alert Styling --- */
+
+    .custom-alert-overlay, .modal-overlay /* Shared overlay style */ {
+
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1001; visibility: hidden; opacity: 0; transition: visibility 0s 0.3s, opacity 0.3s ease-in-out;
+
+    }
+
+    .custom-alert-box, .modal-box /* Shared box style */ {
+
+        background-color: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); text-align: center; max-width: 450px; width: 90%; direction: rtl; border-top: 5px solid; border-color: #0275d8; /* Default border */
+
+    }
+
+    /* Specific type styles */
+
+    .custom-alert-box.error { border-color: #d9534f; color: #d9534f; }
+
+    .custom-alert-box.success { border-color: #5cb85c; color: #5cb85c; }
+
+    .custom-alert-box.info { border-color: #0275d8; color: #0275d8; }
+
+    .custom-alert-box.confirm { border-color: #f0ad4e; color: #333; } /* Alert confirm */
+
+    .modal-box { border-color: #6a1b9a; max-width: 600px; /* Wider modal for timings */ } /* Timings modal specifics */
+
+
+
+    .custom-alert-message, .modal-content /* Shared content style */ {
+
+         margin-bottom: 25px; font-size: 1.2em; line-height: 1.6; color: #333; /* Reset color for modal content */
+
+    }
+
+
+
+    .custom-alert-buttons, .modal-buttons /* Shared button container style */ {
+
+        display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+
+    }
+
+    /* Shared button styles */
+
+    .custom-alert-buttons button, .modal-buttons button {
+
+        padding: 10px 25px; margin: 5px; border: none; border-radius: 20px; cursor: pointer; font-size: 1em; font-weight: bold; color: white; transition: background-color 0.2s ease, transform 0.1s ease; min-width: 100px;
+
+    }
+
+    .custom-alert-buttons button:hover, .modal-buttons button:hover { transform: scale(1.05); }
+
+
+
+    /* Custom Alert Specific Buttons */
+
+    .custom-alert-buttons .confirm-yes { background-color: #5cb85c; }
+
+    .custom-alert-buttons .confirm-yes:hover { background-color: #4cae4c; }
+
+    .custom-alert-buttons .confirm-no { background-color: #d9534f; }
+
+    .custom-alert-buttons .confirm-no:hover { background-color: #c9302c; }
+
+    .custom-alert-buttons .cancel-button { background-color: #aaa; }
+
+    .custom-alert-buttons .cancel-button:hover { background-color: #888; }
+
+    .custom-alert-buttons #customAlertOkButton { background-color: #0275d8; }
+
+    .custom-alert-buttons #customAlertOkButton:hover { background-color: #025aa5; }
+
+
+
+    /* Modal Specific Buttons */
+
+    .modal-buttons .save-button { background-color: #5cb85c; }
+
+    .modal-buttons .save-button:hover { background-color: #4cae4c; }
+
+    .modal-buttons .cancel-button { background-color: #aaa; }
+
+    .modal-buttons .cancel-button:hover { background-color: #888; }
+
+
+
+    /* --- Timings Modal Content Styling --- */
+
+    #timingsModalBox h3 { color: #6a1b9a; margin-top: 0; margin-bottom: 20px; }
+
+    .timing-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; gap: 10px; flex-wrap: wrap; }
+
+    .timing-group label { font-weight: bold; color: #555; min-width: 100px; text-align: left; }
+
+    .timing-group input[type="time"] { padding: 8px; border: 1px solid #ccc; border-radius: 5px; flex-grow: 1; min-width: 100px; }
+
+    .timing-period-group { display: flex; align-items: center; gap: 5px; flex-grow: 1; justify-content: flex-end;}
+
+    .timing-period-group input[type="time"] { flex-grow: 0; width: 110px; } /* Fixed width for period times */
+
+
+
+    /* --- Image Container Styling --- */
+
+    #imageContainer { background-color: #fff; padding: 20px; box-sizing: border-box; display: inline-block; text-align: right; border: 1px solid #eee; width: 750px; max-width: 100%; border-radius: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); position: absolute; left: -9999px; top: -9999px; opacity: 0; z-index: -1; }
+
+    #imageContainer .info-bar-image {
+
+        display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; box-sizing: border-box; min-height: 140px; background: linear-gradient(to left, #f4f4f4, #e7e7e7); padding: 10px 15px; border-radius: 10px;
+
+    }
+
+    #imageContainer .logo-image {
+
+        height: 120px; width: 120px; flex-shrink: 0; background-color: transparent; padding: 4px; border-radius: 6px; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+
+    }
+
+    #imageContainer .logo-image > img { display: block; width: 120px; height: 120px; object-fit: contain; }
+
+    #imageContainer .info-bar-image .header-text-container {
+
+        display: flex; flex-direction: column; align-items: center; text-align: center; flex-grow: 1; padding-left: 15px; padding-right: 15px;
+
+    }
+
+    #imageContainer .info-bar-image .school-name-image { font-weight: bold; font-size: 1em; color: #0056b3; margin-bottom: 5px; display: block; width: 100%; text-align: center; }
+
+    #imageContainer .info-bar-image .date-info-image { font-weight: bold; font-size: 0.9em; color: #333; display: block; width: 100%; text-align: center; }
+
+    #imageContainer .info-bar-image .class-section-info-image { font-weight: bold; font-size: 1em; color: #555; display: block; width: 100%; text-align: center; margin-top: 3px; }
+
+    #imageContainer table { margin-top: 10px; border-collapse: separate; width: 100%; border-spacing: 0; border-radius: 8px; overflow: hidden; }
+
+    #imageContainer th, #imageContainer td { border: none; border-bottom: 1px solid #eee; padding: 8px 6px; text-align: center; font-size: 0.85em; word-break: break-word; }
+
+    #imageContainer th { background: linear-gradient(to bottom, #ede7f6, #d1c4e9); color: #4a148c; font-weight: bold; border-bottom: 2px solid #b39ddb; }
+
+    #imageContainer tbody tr { background-color: #fff; }
+
+    #imageContainer tbody tr:nth-child(even) { background-color: #f9f6fc; }
+
+    /* --- End Image Container Styling --- */
+
+
+
+
+
+    @media (max-width: 768px) {
+
+        .container { margin: 20px auto; padding: 15px; border-radius: 15px; }
+
+        h1 { font-size: 1.6em; /* Adjusted for mobile title */ }
+
+        h1::before { font-size: 0.6em; left: -25px; }
+
+        h2#homework-table-title { font-size: 1.4em; }
+
+
+
+        .info-bar { flex-direction: column; align-items: stretch; padding: 15px; min-height: auto; gap: 10px; }
+
+        .logo { order: 0; align-self: flex-start; height: 68px; width: 68px; padding: 4px; background-color: transparent; box-shadow: none; }
+
+        .logo > img { max-height: 60px; max-width: 60px; width: 60px; height: 60px; }
+
+        .info-item { order: 1; text-align: center; width: 100%; padding-right: 0; padding-left: 0; font-size: 1em; }
+
+        /* #current-period-display { font-size: 1.1em; margin-top: 5px;} /* Style for removed element */
+
+        .ministry-logo-wrapper { order: 2; align-self: flex-end; height: 68px; width: 68px; padding: 4px; background-color: transparent; box-shadow: none; }
+
+        .ministry-logo { height: 60px; width: 60px; }
+
+
+
+        #current-period-icon-container {
+
+            width: 45px;
+
+            height: 45px;
+
+            /* top: -25px; REMOVED as position:absolute is gone */
+
+            /* margin: 10px auto 0 auto; will be inherited, adjust if specific mobile margin needed */
+
+        }
+
+        #current-period-icon-display {
+
+            font-size: 2em; /* Adjusted for smaller container */
+
+        }
+
+
+
+        .form-row { flex-direction: column; gap: 0; }
+
+        .form-row .form-group { flex-basis: 100%; margin-bottom: 10px; }
+
+        .fab-container { top: 15px; left: 15px; }
+
+        #fab-toggle { width: 50px; height: 50px; font-size: 24px; line-height: 50px; }
+
+        .custom-alert-box, .modal-box { padding: 20px; max-width: 95%; } /* Adjust modal padding */
+
+        .custom-alert-message, .modal-content { font-size: 1em; }
+
+        .custom-alert-buttons button, .modal-buttons button { padding: 8px 20px; margin: 4px; }
+
+        .timing-group { flex-direction: column; align-items: stretch; } /* Stack timing inputs */
+
+        .timing-group label { text-align: right; margin-bottom: 5px; min-width: auto;}
+
+        .timing-period-group { justify-content: space-between; }
+
+        .timing-period-group input[type="time"] { width: calc(50% - 5px); } /* Adjust period time inputs */
+
+    }
+
+
+
+  </style>
+
+</head>
+
+<body>
+
+
+
+<!-- FAB Container and Buttons (Updated) -->
+
+<div class="fab-container">
+
+    <button id="fab-toggle">⚙</button> <!-- Settings Icon -->
+
+    <div id="fab-menu">
+
+        <!-- <button class="fab-action-button timings" onclick="openTimingsModal()">تعديل التواقيت</button> -->
+
+        <button class="fab-action-button save-image" onclick="promptForImageSaveOptions()">حفظ كصورة</button>
+
+        <button class="fab-action-button delete" onclick="promptForDeleteOptions()">حذف البيانات</button>
+
+    </div>
+
+</div>
+
+<!-- End FAB -->
+
+
+
+<div class="container">
+
+    <!-- Title Wrapper for Centering -->
+
+    <div class="title-wrapper">
+
+        <h1>نظام متابعة اليوم الدراسي</h1>
+
+    </div>
+
+
+
+    <!-- Info Bar -->
+
+    <div class="info-bar">
+
+        <!-- School Logo -->
+
+        <div class="logo">
+
+            <img src="https://imgg.io/images/2025/05/06/697ecf412b1d662bb40bc3d64ccf4728.png" alt="شعار المدرسة">
+
+        </div>
+
+        <!-- Date/Day Info -->
+
+        <div class="info-item">
+
+            <span id="current-date-day">التاريخ الهجري: ...، اليوم: ...</span>
+
+            <!-- Current Period Icon Container - Positioned under date via CSS -->
+
+            <div id="current-period-icon-container">
+
+                <span id="current-period-icon-display"></span>
+
+            </div>
+
+        </div>
+
+        <!-- Wrapper for Ministry Logo -->
+
+        <div class="ministry-logo-wrapper">
+
+             <img src="https://imgg.io/images/2025/05/07/06cdf0b2bf8401f3517accfd77f6e8c5.webp" alt="شعار وزارة التعليم" class="ministry-logo">
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Form -->
+
+    <div class="form-row form-row-triple">
+
+        <div class="form-group">
+
+            <label for="class-select">الصف الدراسي:</label>
+
+            <select id="class-select"> <option value="">اختر الصف</option> <option value="اول متوسط">اول متوسط</option> <option value="ثاني متوسط">ثاني متوسط</option> <option value="ثالث متوسط">ثالث متوسط</option> <option value="اول ثانوي">اول ثانوي</option> <option value="ثاني ثانوي">ثاني ثانوي</option> <option value="ثالث ثانوي">ثالث ثانوي</option> </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="section-select">الشعبة:</label>
+
+            <select id="section-select"> <option value="">اختر الشعبة</option> <option value="أ">أ</option> <option value="ب">ب</option> <option value="ج">ج</option> </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="period-select">الحصة:</label>
+
+            <select id="period-select" onchange="manualPeriodSelection = true;">
+
+                 <option value="">اختر الحصة</option> <option value="الأولى">الأولى</option> <option value="الثانية">الثانية</option> <option value="الثالثة">الثالثة</option> <option value="الرابعة">الرابعة</option> <option value="الخامسة">الخامسة</option> <option value="السادسة">السادسة</option> </select>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="form-row form-row-double">
+
+         <div class="form-group">
+
+             <label for="subject-input">المادة:</label>
+
+             <input type="text" id="subject-input">
+
+         </div>
+
+         <div class="form-group">
+
+             <label for="lesson-title-input">الدرس:</label>
+
+             <input type="text" id="lesson-title-input">
+
+         </div>
+
+    </div>
+
+
+
+     <div class="form-row form-row-single">
+
+        <div class="form-group">
+
+            <label for="homework-input">الواجب:</label>
+
+            <input type="text" id="homework-input">
+
+        </div>
+
+     </div>
+
+
+
+    <div class="buttons">
+
+        <button class="save-button" onclick="saveHomework()">حفظ الواجب</button>
+
+    </div>
+
+
+
+    <div class="homework-table">
+
+        <h2 id="homework-table-title">الجدول اليومي</h2>
+
+        <table id="homework-display-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>الحصة</th>
+
+                    <th>المادة</th>
+
+                    <th>الدرس</th>
+
+                    <th>الواجب</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                 <!-- Populated and sorted dynamically by JS -->
+
+                 <tr><td colspan="4" style="text-align:center;">اختر الصف والشعبة لعرض الواجبات</td></tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+</div>
+
+
+
+<!-- Hidden container for image generation -->
+
+<div id="imageContainer">
+
+    <div class="info-bar-image">
+
+         <div class="logo-image">
+
+              <img src="https://imgg.io/images/2025/05/06/697ecf412b1d662bb40bc3d64ccf4728.png" alt="شعار المدرسة">
+
+          </div>
+
+        <div class="header-text-container">
+
+             <span class="school-name-image">مدرسة المغيرة بن شعبة</span>
+
+            <span class="date-info-image" id="image-date-day"></span>
+
+            <span class="class-section-info-image" id="image-class-section"></span>
+
+        </div>
+
+    </div>
+
+    <table id="image-homework-table">
+
+        <thead>
+
+            <tr>
+
+                <th>الحصة</th>
+
+                <th>المادة</th>
+
+                <th>الدرس</th>
+
+                <th>الواجب</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+             <!-- Populated dynamically by JS, already ordered by period -->
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<!-- Custom Alert Box HTML -->
+
+<div id="customAlertOverlay" class="custom-alert-overlay">
+
+    <div id="customAlertBox" class="custom-alert-box">
+
+        <div id="customAlertMessage" class="custom-alert-message"></div>
+
+        <div id="customAlertButtons" class="custom-alert-buttons">
+
+             <button id="customAlertConfirmYes" style="display: none;" class="confirm-yes"></button>
+
+             <button id="customAlertConfirmNo" style="display: none;" class="confirm-no"></button>
+
+             <button id="customAlertCancelButton" style="display: none;" class="cancel-button">إلغاء</button>
+
+             <button id="customAlertOkButton" onclick="hideCustomAlert()">حسناً</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- End Custom Alert Box HTML -->
+
+
+
+<!-- START: Timings Modal HTML (Still needed for JS logic, but not directly accessible via button) -->
+
+<div id="timingsModalOverlay" class="modal-overlay">
+
+    <div id="timingsModalBox" class="modal-box">
+
+        <h3>تعديل توقيتات اليوم الدراسي</h3>
+
+        <div class="modal-content">
+
+            <div class="timing-group">
+
+                <label for="timing-assembly-start">الطابور (يبدأ):</label>
+
+                <input type="time" id="timing-assembly-start">
+
+            </div>
+
+            <hr>
+
+            <!-- Periods -->
+
+            <div class="timing-group">
+
+                <label for="timing-period1-start">الحصة الأولى:</label>
+
+                <div class="timing-period-group">
+
+                     <input type="time" id="timing-period1-start" aria-label="بداية الحصة الأولى">
+
+                     <span>-</span>
+
+                     <input type="time" id="timing-period1-end" aria-label="نهاية الحصة الأولى">
+
+                </div>
+
+            </div>
+
+            <div class="timing-group">
+
+                <label for="timing-period2-start">الحصة الثانية:</label>
+
+                 <div class="timing-period-group">
+
+                    <input type="time" id="timing-period2-start" aria-label="بداية الحصة الثانية">
+
+                    <span>-</span>
+
+                    <input type="time" id="timing-period2-end" aria-label="نهاية الحصة الثانية">
+
+                </div>
+
+            </div>
+
+             <div class="timing-group">
+
+                <label for="timing-period3-start">الحصة الثالثة:</label>
+
+                 <div class="timing-period-group">
+
+                    <input type="time" id="timing-period3-start" aria-label="بداية الحصة الثالثة">
+
+                    <span>-</span>
+
+                    <input type="time" id="timing-period3-end" aria-label="نهاية الحصة الثالثة">
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="timing-group">
+
+                <label for="timing-break-start">الفسحة:</label>
+
+                 <div class="timing-period-group">
+
+                     <input type="time" id="timing-break-start" aria-label="بداية الفسحة">
+
+                     <span>-</span>
+
+                     <input type="time" id="timing-break-end" aria-label="نهاية الفسحة">
+
+                </div>
+
+            </div>
+
+            <hr>
+
+             <div class="timing-group">
+
+                <label for="timing-period4-start">الحصة الرابعة:</label>
+
+                 <div class="timing-period-group">
+
+                    <input type="time" id="timing-period4-start" aria-label="بداية الحصة الرابعة">
+
+                    <span>-</span>
+
+                    <input type="time" id="timing-period4-end" aria-label="نهاية الحصة الرابعة">
+
+                </div>
+
+            </div>
+
+             <div class="timing-group">
+
+                <label for="timing-period5-start">الحصة الخامسة:</label>
+
+                 <div class="timing-period-group">
+
+                    <input type="time" id="timing-period5-start" aria-label="بداية الحصة الخامسة">
+
+                    <span>-</span>
+
+                    <input type="time" id="timing-period5-end" aria-label="نهاية الحصة الخامسة">
+
+                </div>
+
+            </div>
+
+             <div class="timing-group">
+
+                <label for="timing-period6-start">الحصة السادسة:</label>
+
+                 <div class="timing-period-group">
+
+                    <input type="time" id="timing-period6-start" aria-label="بداية الحصة السادسة">
+
+                    <span>-</span>
+
+                    <input type="time" id="timing-period6-end" aria-label="نهاية الحصة السادسة">
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="timing-group">
+
+                <label for="timing-endofday">نهاية الدوام:</label>
+
+                <input type="time" id="timing-endofday">
+
+            </div>
+
+
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button class="save-button modal-button" onclick="saveTimings()">حفظ التواقيت</button>
+
+            <button class="cancel-button modal-button" onclick="closeTimingsModal()">إلغاء</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- END: Timings Modal HTML -->
+
+
+
+
+
+<!-- Updated JavaScript Section -->
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+
+  // --- FAB Logic ---
+
+  const fabToggle = document.getElementById('fab-toggle');
+
+  const fabMenu = document.getElementById('fab-menu');
+
+
+
+  fabToggle.addEventListener('click', function(event) {
+
+      event.stopPropagation();
+
+      fabMenu.classList.toggle('fab-menu-visible');
+
+  });
+
+
+
+  document.addEventListener('click', function(event) {
+
+      if (fabMenu.classList.contains('fab-menu-visible') && !fabToggle.contains(event.target) && !fabMenu.contains(event.target)) {
+
+          fabMenu.classList.remove('fab-menu-visible');
+
+      }
+
+  });
+
+  // --- End FAB Logic ---
+
+
+
+  // --- Custom Alert Logic ---
+
+  let confirmCallback = null;
+
+
+
+  function handleConfirm(result) {
+
+      const callback = confirmCallback;
+
+      hideCustomAlert(() => {
+
+          if (callback) {
+
+              callback(result);
+
+          }
+
+      });
+
+  }
+
+
+
+  function showCustomAlert(message, type = 'info', options = {}) {
+
+      const { showOk = true, showConfirm = false, yesText = 'نعم', noText = 'لا', showCancelButton = false, onConfirm = null } = options; // Default showOk to true
+
+      const overlay = document.getElementById('customAlertOverlay');
+
+      const box = document.getElementById('customAlertBox');
+
+      const messageDiv = document.getElementById('customAlertMessage');
+
+      const buttonsDiv = document.getElementById('customAlertButtons');
+
+      const okButton = document.getElementById('customAlertOkButton');
+
+      const yesButton = document.getElementById('customAlertConfirmYes');
+
+      const noButton = document.getElementById('customAlertConfirmNo');
+
+      const cancelButton = document.getElementById('customAlertCancelButton');
+
+
+
+      messageDiv.textContent = message;
+
+      box.className = 'custom-alert-box';
+
+      box.classList.add(type);
+
+
+
+      // Control button visibility based on options
+
+      okButton.style.display = (showOk && !showConfirm && !showCancelButton) ? 'inline-block' : 'none';
+
+      yesButton.style.display = showConfirm ? 'inline-block' : 'none';
+
+      noButton.style.display = showConfirm ? 'inline-block' : 'none';
+
+      cancelButton.style.display = showCancelButton ? 'inline-block' : 'none';
+
+
+
+      // Always show the button container if any button is visible
+
+      const anyButtonVisible = (showOk && !showConfirm && !showCancelButton) || showConfirm || showCancelButton;
+
+      buttonsDiv.style.display = anyButtonVisible ? 'flex' : 'none'; // Use flex for better spacing
+
+
+
+      if (showConfirm) {
+
+          yesButton.textContent = yesText;
+
+          noButton.textContent = noText;
+
+          confirmCallback = onConfirm;
+
+          yesButton.onclick = () => handleConfirm(true);
+
+          noButton.onclick = () => handleConfirm(false);
+
+      } else {
+
+          confirmCallback = null;
+
+      }
+
+
+
+      cancelButton.onclick = () => hideCustomAlert();
+
+      okButton.onclick = () => hideCustomAlert();
+
+
+
+      overlay.style.visibility = 'visible';
+
+      overlay.style.opacity = '1';
+
+      overlay.style.transition = 'visibility 0s, opacity 0.3s ease-in-out';
+
+  }
+
+
+
+  function hideCustomAlert(onHiddenCallback = null) {
+
+      const overlay = document.getElementById('customAlertOverlay');
+
+      if (overlay.style.visibility === 'hidden') {
+
+          if (onHiddenCallback) onHiddenCallback();
+
+          return;
+
+      }
+
+      overlay.style.transition = 'visibility 0s 0.3s, opacity 0.3s ease-in-out';
+
+      overlay.style.opacity = '0';
+
+      setTimeout(() => {
+
+          overlay.style.visibility = 'hidden';
+
+          // Cleanup inside timeout ensures it happens after fade out
+
+          document.getElementById('customAlertMessage').textContent = '';
+
+          document.getElementById('customAlertBox').className = 'custom-alert-box';
+
+          document.getElementById('customAlertConfirmYes').style.display = 'none';
+
+          document.getElementById('customAlertConfirmNo').style.display = 'none';
+
+          document.getElementById('customAlertCancelButton').style.display = 'none';
+
+          document.getElementById('customAlertOkButton').style.display = 'inline-block'; // Default state
+
+          confirmCallback = null;
+
+          if (onHiddenCallback) {
+
+              onHiddenCallback();
+
+          }
+
+      }, 300);
+
+  }
+
+  // --- End Custom Alert Logic ---
+
+
+
+  // --- START: Timings Modal Logic ---
+
+  const TIMINGS_STORAGE_KEY = 'schoolDayTimings';
+
+  let schoolTimings = {}; // Will hold the loaded timings
+
+  let manualPeriodSelection = false; // Flag to track if user manually changed period
+
+  let periodicUpdateInterval = null; // To hold the interval ID
+
+
+
+  // Default timings (adjust as needed)
+
+  const defaultTimings = {
+
+    assemblyStart: "06:45",
+
+    period1Start: "07:00", period1End: "07:45",
+
+    period2Start: "07:45", period2End: "08:30",
+
+    period3Start: "08:30", period3End: "09:15",
+
+    breakStart:   "09:15", breakEnd:   "09:45",
+
+    period4Start: "09:45", period4End: "10:30",
+
+    period5Start: "10:30", period5End: "11:15",
+
+    period6Start: "11:15", period6End: "12:00",
+
+    endOfDay:     "12:00"
+
+  };
+
+
+
+  function loadTimings() {
+
+    try {
+
+        const storedTimings = localStorage.getItem(TIMINGS_STORAGE_KEY);
+
+        if (storedTimings) {
+
+            schoolTimings = JSON.parse(storedTimings);
+
+            console.log("Loaded timings from localStorage.");
+
+        } else {
+
+            schoolTimings = { ...defaultTimings }; // Use default if nothing stored
+
+            console.log("Using default timings.");
+
+             saveTimingsToLocalStorage(schoolTimings); // Save defaults back
+
+        }
+
+    } catch (e) {
+
+        console.error("Error loading timings from localStorage:", e);
+
+        schoolTimings = { ...defaultTimings }; // Fallback
+
+        updateStatus("خطأ في تحميل التوقيتات، تم استخدام الافتراضية.", true, false);
+
+    }
+
+  }
+
+
+
+  function saveTimingsToLocalStorage(timingsToSave) {
+
+      try {
+
+          localStorage.setItem(TIMINGS_STORAGE_KEY, JSON.stringify(timingsToSave));
+
+          console.log("Saved timings to localStorage.");
+
+          return true;
+
+      } catch (e) {
+
+          console.error("Error saving timings to localStorage:", e);
+
+          updateStatus("خطأ في حفظ التوقيتات في المتصفح.", true, true);
+
+          return false;
+
+      }
+
+  }
+
+
+
+  function openTimingsModal() {
+
+      // Populate modal with current timings
+
+      document.getElementById('timing-assembly-start').value = schoolTimings.assemblyStart || '';
+
+      document.getElementById('timing-period1-start').value = schoolTimings.period1Start || '';
+
+      document.getElementById('timing-period1-end').value = schoolTimings.period1End || '';
+
+      document.getElementById('timing-period2-start').value = schoolTimings.period2Start || '';
+
+      document.getElementById('timing-period2-end').value = schoolTimings.period2End || '';
+
+      document.getElementById('timing-period3-start').value = schoolTimings.period3Start || '';
+
+      document.getElementById('timing-period3-end').value = schoolTimings.period3End || '';
+
+      document.getElementById('timing-break-start').value = schoolTimings.breakStart || '';
+
+      document.getElementById('timing-break-end').value = schoolTimings.breakEnd || '';
+
+      document.getElementById('timing-period4-start').value = schoolTimings.period4Start || '';
+
+      document.getElementById('timing-period4-end').value = schoolTimings.period4End || '';
+
+      document.getElementById('timing-period5-start').value = schoolTimings.period5Start || '';
+
+      document.getElementById('timing-period5-end').value = schoolTimings.period5End || '';
+
+      document.getElementById('timing-period6-start').value = schoolTimings.period6Start || '';
+
+      document.getElementById('timing-period6-end').value = schoolTimings.period6End || '';
+
+      document.getElementById('timing-endofday').value = schoolTimings.endOfDay || '';
+
+
+
+      // Show the modal
+
+      const overlay = document.getElementById('timingsModalOverlay');
+
+      overlay.style.visibility = 'visible';
+
+      overlay.style.opacity = '1';
+
+      overlay.style.transition = 'visibility 0s, opacity 0.3s ease-in-out';
+
+      fabMenu.classList.remove('fab-menu-visible'); // Close FAB menu
+
+  }
+
+
+
+  function closeTimingsModal() {
+
+      const overlay = document.getElementById('timingsModalOverlay');
+
+      overlay.style.transition = 'visibility 0s 0.3s, opacity 0.3s ease-in-out';
+
+      overlay.style.opacity = '0';
+
+      setTimeout(() => {
+
+          overlay.style.visibility = 'hidden';
+
+      }, 300);
+
+  }
+
+
+
+  function saveTimings() {
+
+      // Read values from modal inputs
+
+      const newTimings = {
+
+          assemblyStart: document.getElementById('timing-assembly-start').value,
+
+          period1Start: document.getElementById('timing-period1-start').value,
+
+          period1End: document.getElementById('timing-period1-end').value,
+
+          period2Start: document.getElementById('timing-period2-start').value,
+
+          period2End: document.getElementById('timing-period2-end').value,
+
+          period3Start: document.getElementById('timing-period3-start').value,
+
+          period3End: document.getElementById('timing-period3-end').value,
+
+          breakStart: document.getElementById('timing-break-start').value,
+
+          breakEnd: document.getElementById('timing-break-end').value,
+
+          period4Start: document.getElementById('timing-period4-start').value,
+
+          period4End: document.getElementById('timing-period4-end').value,
+
+          period5Start: document.getElementById('timing-period5-start').value,
+
+          period5End: document.getElementById('timing-period5-end').value,
+
+          period6Start: document.getElementById('timing-period6-start').value,
+
+          period6End: document.getElementById('timing-period6-end').value,
+
+          endOfDay: document.getElementById('timing-endofday').value
+
+      };
+
+
+
+      // Basic validation (check if all fields are filled)
+
+      for (const key in newTimings) {
+
+          if (!newTimings[key]) {
+
+              // Find the label associated with the input for a user-friendly message
+
+              let labelText = key; // Default to key name
+
+              const inputElement = document.getElementById(`timing-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`);
+
+              if (inputElement) {
+
+                  const labelElement = document.querySelector(`label[for='${inputElement.id}']`);
+
+                  if(labelElement) {
+
+                     // Clean up label text if needed (e.g., remove colons)
+
+                     labelText = labelElement.textContent.replace(':', '').trim();
+
+                  }
+
+              }
+
+              showCustomAlert(`الرجاء إدخال قيمة لتوقيت "${labelText}"`, 'error', { showOk: true });
+
+              return;
+
+          }
+
+      }
+
+      // TODO: Add more validation if needed (e.g., end time > start time)
+
+
+
+      if (saveTimingsToLocalStorage(newTimings)) {
+
+          schoolTimings = newTimings; // Update global variable
+
+          closeTimingsModal();
+
+          showCustomAlert("تم حفظ التوقيتات بنجاح.", 'success', { showOk: true }); // Use success type and OK button
+
+          updateCurrentPeriodDisplayAndSelect(); // Immediately update display/select based on new timings
+
+      }
+
+      // If save failed, error message is shown by saveTimingsToLocalStorage
+
+  }
+
+
+
+  // Helper to convert HH:MM string to minutes past midnight
+
+  function timeToMinutes(timeStr) {
+
+      if (!timeStr || !timeStr.includes(':')) return null;
+
+      const [hours, minutes] = timeStr.split(':').map(Number);
+
+      return hours * 60 + minutes;
+
+  }
+
+
+
+  function getCurrentPeriod(currentTime, timings) {
+
+        const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+
+        const assemblyStartM = timeToMinutes(timings.assemblyStart);
+
+        const p1StartM = timeToMinutes(timings.period1Start);
+
+        const p1EndM = timeToMinutes(timings.period1End);
+
+        const p2StartM = timeToMinutes(timings.period2Start);
+
+        const p2EndM = timeToMinutes(timings.period2End);
+
+        const p3StartM = timeToMinutes(timings.period3Start);
+
+        const p3EndM = timeToMinutes(timings.period3End);
+
+        const breakStartM = timeToMinutes(timings.breakStart);
+
+        const breakEndM = timeToMinutes(timings.breakEnd);
+
+        const p4StartM = timeToMinutes(timings.period4Start);
+
+        const p4EndM = timeToMinutes(timings.period4End);
+
+        const p5StartM = timeToMinutes(timings.period5Start);
+
+        const p5EndM = timeToMinutes(timings.period5End);
+
+        const p6StartM = timeToMinutes(timings.period6Start);
+
+        const p6EndM = timeToMinutes(timings.period6End);
+
+        const endOfDayM = timeToMinutes(timings.endOfDay);
+
+
+
+        if (assemblyStartM !== null && p1StartM !== null && currentMinutes >= assemblyStartM && currentMinutes < p1StartM) return { name: "الطابور الصباحي", value: "" };
+
+        if (p1StartM !== null && p1EndM !== null && currentMinutes >= p1StartM && currentMinutes < p1EndM) return { name: "الحصة الأولى", value: "الأولى" };
+
+        if (p2StartM !== null && p2EndM !== null && currentMinutes >= p2StartM && currentMinutes < p2EndM) return { name: "الحصة الثانية", value: "الثانية" };
+
+        if (p3StartM !== null && p3EndM !== null && currentMinutes >= p3StartM && currentMinutes < p3EndM) return { name: "الحصة الثالثة", value: "الثالثة" };
+
+        if (breakStartM !== null && breakEndM !== null && currentMinutes >= breakStartM && currentMinutes < breakEndM) return { name: "الفسحة", value: "" };
+
+        if (p4StartM !== null && p4EndM !== null && currentMinutes >= p4StartM && currentMinutes < p4EndM) return { name: "الحصة الرابعة", value: "الرابعة" };
+
+        if (p5StartM !== null && p5EndM !== null && currentMinutes >= p5StartM && currentMinutes < p5EndM) return { name: "الحصة الخامسة", value: "الخامسة" };
+
+        if (p6StartM !== null && p6EndM !== null && currentMinutes >= p6StartM && currentMinutes < p6EndM) return { name: "الحصة السادسة", value: "السادسة" };
+
+
+
+        if (p1StartM !== null && currentMinutes < p1StartM) return { name: "قبل الدوام", value: "" };
+
+        const effectiveEndOfDay = Math.max(p6EndM ?? -1, endOfDayM ?? -1);
+
+        if (effectiveEndOfDay !== -1 && currentMinutes >= effectiveEndOfDay) return { name: "بعد الدوام", value: "" };
+
+
+
+        return { name: "فترة انتقالية", value: "" }; // Default / between periods
+
+    }
+
+
+
+
+
+  function updateCurrentPeriodDisplayAndSelect() {
+
+        const now = new Date(); // Assumes user's system time is KSA time (UTC+3)
+
+        const currentPeriodInfo = getCurrentPeriod(now, schoolTimings);
+
+        const selectElement = document.getElementById('period-select');
+
+        const iconContainerElement = document.getElementById('current-period-icon-container');
+
+        const iconDisplayElement = document.getElementById('current-period-icon-display');
+
+
+
+        if (iconDisplayElement && iconContainerElement) {
+
+            let icon = '';
+
+            const currentPeriodName = currentPeriodInfo.name;
+
+            const currentPeriodValue = currentPeriodInfo.value;
+
+
+
+            switch (currentPeriodValue) {
+
+                case "الأولى": icon = '⚀'; break;
+
+                case "الثانية": icon = '⚁'; break;
+
+                case "الثالثة": icon = '⚂'; break;
+
+                case "الرابعة": icon = '⚃'; break;
+
+                case "الخامسة": icon = '⚄'; break;
+
+                case "السادسة": icon = '⚅'; break;
+
+                default:
+
+                    if (currentPeriodName === "بعد الدوام") {
+
+                        icon = '🏠';
+
+                    } else if (currentPeriodName === "الطابور الصباحي") {
+
+                        icon = '🌅';
+
+                    } else if (currentPeriodName === "الفسحة") {
+
+                        icon = '☕';
+
+                    } else if (currentPeriodName === "قبل الدوام") {
+
+                        icon = '⏳';
+
+                    } else if (currentPeriodName === "فترة انتقالية") {
+
+                        icon = '🔄';
+
+                    } else {
+
+                        icon = '🕒';
+
+                    }
+
+                    break;
+
+            }
+
+            iconDisplayElement.textContent = icon;
+
+        } else {
+
+            if (!iconContainerElement) console.error("Element #current-period-icon-container not found");
+
+            if (!iconDisplayElement) console.error("Element #current-period-icon-display not found");
+
+        }
+
+
+
+
+
+        if (selectElement && !manualPeriodSelection) {
+
+            if (currentPeriodInfo.value && selectElement.querySelector(`option[value="${currentPeriodInfo.value}"]`)) {
+
+                 selectElement.value = currentPeriodInfo.value;
+
+            } else {
+
+                 selectElement.value = "";
+
+            }
+
+        }
+
+  }
+
+
+
+  function startPeriodicUpdates() {
+
+      if (periodicUpdateInterval) {
+
+          clearInterval(periodicUpdateInterval);
+
+      }
+
+      updateCurrentPeriodDisplayAndSelect(); // Initial update
+
+      periodicUpdateInterval = setInterval(updateCurrentPeriodDisplayAndSelect, 60000); // Update every minute
+
+      console.log("Started periodic time/period updates.");
+
+  }
+
+  // --- END: Timings Modal Logic ---
+
+
+
+  function updateStatus(message, isError = false, isFinal = false) {
+
+       const type = isError ? 'error' : (isFinal ? 'success' : 'info');
+
+       const showButton = isError || isFinal;
+
+       showCustomAlert(message, type, { showOk: showButton });
+
+       if (isError) { console.error("Status/Error:", message); }
+
+       else { console.log("Status:", message); }
+
+  }
+
+
+
+    function toHijri(date) {
+
+         try {
+
+            if (isNaN(date.getTime())) { return "تاريخ غير صالح"; }
+
+            const formatter = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Riyadh' });
+
+            return formatter.format(date);
+
+         } catch (e) {
+
+             console.warn("Intl Hijri formatting failed, falling back to Gregorian:", e);
+
+             const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Riyadh' };
+
+             return date.toLocaleDateString('ar-SA', options) + " (ميلادي)";
+
+         }
+
+    }
+
+
+
+    function getArabicDayName(date) {
+
+        const days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+
+         try {
+
+              const formatter = new Intl.DateTimeFormat('ar-SA', { weekday: 'long', timeZone: 'Asia/Riyadh' });
+
+              return formatter.format(date);
+
+         } catch(e) {
+
+             console.warn("Intl day name formatting failed, using manual array:", e);
+
+              if (isNaN(date.getDay())) return "يوم غير صالح";
+
+              return days[date.getDay()];
+
+         }
+
+    }
+
+
+
+    function updateDateDisplay() {
+
+        const today = new Date();
+
+        const hijriDateString = toHijri(today);
+
+        const dayName = getArabicDayName(today);
+
+        const dateDisplayElement = document.getElementById('current-date-day');
+
+        const displayString = `التاريخ الهجري: ${hijriDateString}، اليوم: ${dayName} (توقيت السعودية)`;
+
+
+
+        if (dateDisplayElement) { dateDisplayElement.textContent = displayString; }
+
+        else { console.error("Element with ID 'current-date-day' not found."); }
+
+
+
+        const imageDateDisplayElement = document.getElementById('image-date-day');
+
+         if (imageDateDisplayElement) { imageDateDisplayElement.textContent = displayString; }
+
+    }
+
+
+
+  // --- START: Helper for Sorting by Period ---
+
+  const periodOrder = { "الأولى": 1, "الثانية": 2, "الثالثة": 3, "الرابعة": 4, "الخامسة": 5, "السادسة": 6 };
+
+  function getPeriodOrderValue(periodString) {
+
+      return periodOrder[periodString] || 99; // Put unknown/empty periods last
+
+  }
+
+  // --- END: Helper for Sorting by Period ---
+
+
+
+
+
+  function loadAppData() {
+
+    loadTimings(); // Load timings first
+
+    updateDateDisplay(); // Update date (now includes KSA note)
+
+    startPeriodicUpdates(); // Start updating time/period display & selection
+
+
+
+    document.getElementById('class-select').addEventListener('change', () => {
+
+        manualPeriodSelection = false; // Reset manual flag when class changes
+
+        displayFilteredHomework();
+
+        updateCurrentPeriodDisplayAndSelect(); // Re-apply auto-selection if needed
+
+    });
+
+    document.getElementById('section-select').addEventListener('change', () => {
+
+        manualPeriodSelection = false; // Reset manual flag when section changes
+
+        displayFilteredHomework();
+
+        updateCurrentPeriodDisplayAndSelect(); // Re-apply auto-selection if needed
+
+    });
+
+
+
+    // Initial display if values are pre-selected
+
+    displayFilteredHomework();
+
+  }
+
+
+
+  function displayFilteredHomework() {
+
+    const classSelect = document.getElementById('class-select').value;
+
+    const sectionSelect = document.getElementById('section-select').value;
+
+    const tableBody = document.getElementById('homework-display-table').getElementsByTagName('tbody')[0];
+
+    const titleElement = document.getElementById('homework-table-title');
+
+
+
+    tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">جلب البيانات...</td></tr>';
+
+
+
+    if (classSelect && sectionSelect) {
+
+        titleElement.textContent = `اليوم الدراسي ${classSelect} - ${sectionSelect}`;
+
+
+
+        google.script.run.withSuccessHandler(function(data) {
+
+            tableBody.innerHTML = ''; // Clear previous content
+
+
+
+            if (data && data.length > 0) {
+
+                 // Indices from Apps Script (adjust if columns change)
+
+                 const classIndex = 0;
+
+                 const sectionIndex = 1;
+
+                 const periodDisplayIndex = 2; // Column C
+
+                 const subjectDisplayIndex = 3; // Column D
+
+                 const lessonDisplayIndex = 4;  // Column E
+
+                 const homeworkDisplayIndex = 5; // Column F
+
+
+
+                 // --- SORTING LOGIC ---
+
+                 data.sort((a, b) => {
+
+                     const periodA = a[periodDisplayIndex] || "";
+
+                     const periodB = b[periodDisplayIndex] || "";
+
+                     const orderA = getPeriodOrderValue(periodA);
+
+                     const orderB = getPeriodOrderValue(periodB);
+
+                     return orderA - orderB;
+
+                 });
+
+                 // --- END SORTING LOGIC ---
+
+
+
+                // Populate table with sorted data
+
+                data.forEach(function(row) {
+
+                    const newRow = tableBody.insertRow();
+
+                     if (row.length > homeworkDisplayIndex) { // Check if row has enough columns
+
+                         newRow.insertCell().textContent = row[periodDisplayIndex] || '-';
+
+                         newRow.insertCell().textContent = row[subjectDisplayIndex] || '-';
+
+                         newRow.insertCell().textContent = row[lessonDisplayIndex] || '-';
+
+                         newRow.insertCell().textContent = row[homeworkDisplayIndex] || '-';
+
+                     } else {
+
+                         // Handle incomplete row (optional: log or display differently)
+
+                          console.warn("Skipping incomplete row during display:", row);
+
+                         // Optionally insert placeholder cells
+
+                         const placeholderRow = tableBody.insertRow();
+
+                         placeholderRow.insertCell().textContent = row[periodDisplayIndex] || '?'; // Show period if available
+
+                         placeholderRow.insertCell().textContent = '-';
+
+                         placeholderRow.insertCell().textContent = '-';
+
+                         placeholderRow.insertCell().textContent = '(بيانات غير كاملة)';
+
+                         placeholderRow.style.color = 'grey';
+
+                     }
+
+                });
+
+            } else {
+
+                 tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">لا توجد واجبات لهذا الصف والشعبة.</td></tr>';
+
+            }
+
+        }).withFailureHandler(function(error) {
+
+            updateStatus('فشل جلب الواجبات: ' + error.message, true, true);
+
+            tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">حدث خطأ أثناء جلب البيانات.</td></tr>';
+
+        }).getHomeworkData(classSelect, sectionSelect);
+
+    } else {
+
+        titleElement.textContent = 'الجدول اليومي';
+
+        tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">اختر الصف والشعبة لعرض الواجبات</td></tr>';
+
+    }
+
+  }
+
+
+
+  function saveHomework() {
+
+    const classSelect = document.getElementById('class-select').value;
+
+    const sectionSelect = document.getElementById('section-select').value;
+
+    const periodSelect = document.getElementById('period-select').value;
+
+    const subjectInput = document.getElementById('subject-input').value.trim();
+
+    const lessonTitleInput = document.getElementById('lesson-title-input').value.trim();
+
+    const homeworkInput = document.getElementById('homework-input').value.trim();
+
+
+
+    if (!classSelect || !sectionSelect || !periodSelect || !subjectInput || !lessonTitleInput || !homeworkInput) {
+
+      showCustomAlert('الرجاء تعبئة جميع الحقول.', 'error', { showOk: true });
+
+      return;
+
+    }
+
+
+
+    const homeworkData = {
+
+      class: classSelect,
+
+      section: sectionSelect,
+
+      period: periodSelect,
+
+      subject: subjectInput,
+
+      lessonTitle: lessonTitleInput,
+
+      homework: homeworkInput
+
+    };
+
+
+
+    updateStatus('جاري الحفظ والتحقق...', false, false);
+
+
+
+    google.script.run.withSuccessHandler(function(response) {
+
+        if (response.status === 'duplicate') {
+
+             showCustomAlert(
+
+                `تم العثور على واجب مسجل بالفعل لهذا الصف (${response.class}) والشعبة (${response.section}) والحصة (${response.period}). هل تريد تحديث بياناته؟`,
+
+                'confirm',
+
+                {
+
+                    showConfirm: true,
+
+                    yesText: 'نعم، تحديث',
+
+                    noText: 'لا، إلغاء',
+
+                    onConfirm: (confirmed) => {
+
+                        if (confirmed) {
+
+                            updateStatus('جاري تحديث الواجب...', false, false);
+
+                             google.script.run.withSuccessHandler(function(updateResponse) {
+
+                                 updateStatus(updateResponse, false, true);
+
+                                  document.getElementById('subject-input').value = "";
+
+                                  document.getElementById('lesson-title-input').value = "";
+
+                                  document.getElementById('homework-input').value = "";
+
+                                  manualPeriodSelection = false;
+
+                                  updateCurrentPeriodDisplayAndSelect();
+
+                                 displayFilteredHomework(); // Refresh table (will be sorted)
+
+                             }).withFailureHandler(function(updateError) {
+
+                                 updateStatus('فشل تحديث الواجب: ' + updateError.message, true, true);
+
+                             }).updateHomework(homeworkData, response.rowIndex);
+
+                        } else {
+
+                            updateStatus('تم إلغاء تحديث الواجب.', 'info', true);
+
+                        }
+
+                    }
+
+                }
+
+             );
+
+        } else if (response.status === 'success') {
+
+            updateStatus(response.message, false, true);
+
+             document.getElementById('subject-input').value = "";
+
+             document.getElementById('lesson-title-input').value = "";
+
+             document.getElementById('homework-input').value = "";
+
+             manualPeriodSelection = false;
+
+             updateCurrentPeriodDisplayAndSelect();
+
+            displayFilteredHomework(); // Refresh table (will be sorted)
+
+        } else {
+
+            updateStatus('حدث خطأ غير متوقع أثناء الحفظ.', true, true);
+
+             console.error("Unexpected save response:", response);
+
+        }
+
+    }).withFailureHandler(function(error) {
+
+      updateStatus('فشل الحفظ: ' + error.message, true, true);
+
+    }).saveOrCheckHomework(homeworkData);
+
+  }
+
+
+
+  // --- Variables for Bulk Operations ---
+
+  let allCombinations = [];
+
+  let currentCombinationIndex = 0;
+
+  let successCount = 0;
+
+  let failureCount = 0;
+
+  const ALL_PERIODS = ['الأولى', 'الثانية', 'الثالثة', 'الرابعة', 'الخامسة', 'السادسة'];
+
+  const PLACEHOLDER_TEXT = '--';
+
+
+
+  function promptForImageSaveOptions() {
+
+      showCustomAlert(
+
+          'ماذا تريد أن تحفظ كصورة؟',
+
+          'info',
+
+          {
+
+              showConfirm: true,
+
+              showCancelButton: true,
+
+              yesText: 'الجدول الحالي فقط',
+
+              noText: 'جميع جداول الفصول',
+
+              onConfirm: (result) => {
+
+                  if (result === true) { downloadTableAsImage(); }
+
+                  else if (result === false) { startSavingAllTablesAsImages(); }
+
+              }
+
+          }
+
+      );
+
+      fabMenu.classList.remove('fab-menu-visible');
+
+  }
+
+
+
+  function startSavingAllTablesAsImages() {
+
+       updateStatus('جاري جلب قائمة الفصول والشعب...', false, false);
+
+       google.script.run.withSuccessHandler(function(combinations) {
+
+           allCombinations = combinations;
+
+           currentCombinationIndex = 0; successCount = 0; failureCount = 0;
+
+           if (allCombinations && allCombinations.length > 0) {
+
+               updateStatus(`تم جلب ${allCombinations.length} فصل/شعبة. جاري البدء في حفظ الصور...`, false, false);
+
+               setTimeout(processNextCombinationImage, 100);
+
+           } else {
+
+               updateStatus('لا توجد بيانات في الشيت لحفظ صور لها.', 'info', true);
+
+           }
+
+       }).withFailureHandler(function(error) {
+
+           updateStatus('فشل جلب قائمة الفصول والشعب: ' + error.message, true, true);
+
+       }).getAllClassSectionCombinations();
+
+  }
+
+
+
+  function processNextCombinationImage() {
+
+      if (currentCombinationIndex >= allCombinations.length) {
+
+          const finalMessageType = failureCount > 0 ? 'error' : 'success';
+
+          updateStatus(`تم الانتهاء من حفظ جداول جميع الفصول والشعب كصور. تم حفظ ${successCount} بنجاح وفشل ${failureCount}.`, finalMessageType, true);
+
+          return;
+
+      }
+
+
+
+      const currentCombination = allCombinations[currentCombinationIndex];
+
+      const className = currentCombination.class;
+
+      const sectionName = currentCombination.section;
+
+
+
+      updateStatus(`جاري معالجة وحفظ صورة الصف ${className} الشعبة ${sectionName} (${currentCombinationIndex + 1} من ${allCombinations.length})...`, false, false);
+
+
+
+      google.script.run.withSuccessHandler(function(data) {
+
+          const imageContainer = document.getElementById('imageContainer');
+
+          const imageTableBody = document.getElementById('image-homework-table').getElementsByTagName('tbody')[0];
+
+          const imageClassSectionSpan = document.getElementById('image-class-section');
+
+
+
+          imageTableBody.innerHTML = ''; // Clear previous image table content
+
+          const periodDataIndex = 2; const subjectDataIndex = 3; const lessonDataIndex = 4; const homeworkDataIndex = 5;
+
+          const dataMap = new Map();
+
+          if (data && data.length > 0) {
+
+              // --- No need to sort 'data' here, map creation handles it ---
+
+              data.forEach(row => {
+
+                  if (row.length > Math.max(periodDataIndex, subjectDataIndex, lessonDataIndex, homeworkDataIndex)) {
+
+                      const period = String(row[periodDataIndex] || '').trim();
+
+                      if (period && ALL_PERIODS.includes(period)) { // Only map known periods
+
+                          dataMap.set(period, {
+
+                             subject: row[subjectDataIndex] || PLACEHOLDER_TEXT,
+
+                             lesson: row[lessonDataIndex] || PLACEHOLDER_TEXT,
+
+                             homework: row[homeworkDataIndex] || PLACEHOLDER_TEXT
+
+                          });
+
+                      } else if (period) { console.warn(`Row contains unknown period '${period}' for ${className}-${sectionName}. Skipping in image.`); }
+
+                  } else { console.warn(`Skipping incomplete row during image data map creation for ${className}-${sectionName}:`, row); }
+
+              });
+
+          }
+
+
+
+          // Populate image table ensuring ALL_PERIODS order
+
+          ALL_PERIODS.forEach(period => {
+
+              const newRow = imageTableBody.insertRow();
+
+              const periodData = dataMap.get(period);
+
+              newRow.insertCell().textContent = period;
+
+              if (periodData) {
+
+                  newRow.insertCell().textContent = periodData.subject;
+
+                  newRow.insertCell().textContent = periodData.lesson;
+
+                  newRow.insertCell().textContent = periodData.homework;
+
+              } else {
+
+                  // Fill placeholders for missing periods
+
+                  newRow.insertCell().textContent = PLACEHOLDER_TEXT;
+
+                  newRow.insertCell().textContent = PLACEHOLDER_TEXT;
+
+                  newRow.insertCell().textContent = PLACEHOLDER_TEXT;
+
+              }
+
+          });
+
+
+
+          imageClassSectionSpan.textContent = `الصف: ${className} - ${sectionName}`;
+
+
+
+          // Generate image
+
+          imageContainer.style.position = 'static'; imageContainer.style.left = 'auto'; imageContainer.style.top = 'auto'; imageContainer.style.opacity = '1'; imageContainer.style.zIndex = 'auto'; imageContainer.style.display = 'inline-block';
+
+
+
+          setTimeout(() => {
+
+              html2canvas(imageContainer, { scale: 2, logging: false, useCORS: true, windowWidth: imageContainer.scrollWidth, windowHeight: imageContainer.scrollHeight })
+
+              .then(canvas => {
+
+                  imageContainer.style.position = 'absolute'; imageContainer.style.left = '-9999px'; imageContainer.style.top = '-9999px'; imageContainer.style.opacity = 0; imageContainer.style.zIndex = -1; imageContainer.style.display = 'none';
+
+                  const imageData = canvas.toDataURL('image/png');
+
+                  const currentDate = new Date().toISOString().slice(0, 10);
+
+                  const filename = `واجبات_${className}_${sectionName}_${currentDate}.png`;
+
+
+
+                  google.script.run.withSuccessHandler(function(response) {
+
+                      console.log(`Image saved successfully for ${className}-${sectionName}: ${response}`);
+
+                      successCount++; currentCombinationIndex++;
+
+                      setTimeout(processNextCombinationImage, 50);
+
+                  }).withFailureHandler(function(error) {
+
+                      console.error(`Apps Script error saving image for ${className}-${sectionName}:`, error);
+
+                      failureCount++; currentCombinationIndex++;
+
+                      setTimeout(processNextCombinationImage, 50);
+
+                  }).saveImageToDrive(imageData, filename);
+
+
+
+              }).catch(error => {
+
+                   imageContainer.style.position = 'absolute'; imageContainer.style.left = '-9999px'; imageContainer.style.top = '-9999px'; imageContainer.style.opacity = 0; imageContainer.style.zIndex = -1; imageContainer.style.display = 'none';
+
+                   console.error(`html2canvas error for ${className}-${sectionName}:`, error);
+
+                   failureCount++; currentCombinationIndex++;
+
+                   setTimeout(processNextCombinationImage, 50);
+
+              });
+
+          }, 100); // Delay for rendering
+
+
+
+      }).withFailureHandler(function(error) {
+
+          console.error(`Apps Script error fetching data for ${className}-${sectionName}:`, error);
+
+          failureCount++; currentCombinationIndex++;
+
+          setTimeout(processNextCombinationImage, 50);
+
+      }).getHomeworkData(className, sectionName);
+
+  }
+
+
+
+
+
+  function promptForDeleteOptions() {
+
+        showCustomAlert(
+
+            'هل أنت متأكد من حذف جميع بيانات الواجبات؟ لا يمكن التراجع عن هذا الإجراء.',
+
+            'confirm',
+
+            {
+
+                showConfirm: true,
+
+                yesText: 'نعم، متابعة الحذف',
+
+                noText: 'إلغاء',
+
+                onConfirm: (confirmed) => {
+
+                    if (confirmed) {
+
+                        showCustomAlert(
+
+                            'هل ترغب في حفظ سجل (ملف CSV) بالبيانات المحذوفة قبل الحذف النهائي؟ سيتم حفظه في مجلد التطبيق بـ Google Drive.',
+
+                            'confirm',
+
+                            {
+
+                                showConfirm: true,
+
+                                yesText: 'نعم، حفظ السجل ثم الحذف',
+
+                                noText: 'لا، الحذف فقط',
+
+                                onConfirm: (saveLogConfirmed) => { executeDelete(saveLogConfirmed); }
+
+                            }
+
+                        );
+
+                    } else { updateStatus('تم إلغاء الحذف.', 'info', true); }
+
+                }
+
+            }
+
+        );
+
+        fabMenu.classList.remove('fab-menu-visible');
+
+  }
+
+
+
+  function executeDelete(saveLog) {
+
+    const actionText = saveLog ? "وحفظ السجل" : "";
+
+    updateStatus(`جاري حذف جميع البيانات ${actionText}...`, false, false);
+
+    google.script.run.withSuccessHandler(function(response) {
+
+        updateStatus(response, false, true);
+
+        document.getElementById('homework-display-table').getElementsByTagName('tbody')[0].innerHTML = '<tr><td colspan="4" style="text-align:center;">لا توجد بيانات لعرضها.</td></tr>';
+
+        document.getElementById('class-select').value = "";
+
+        document.getElementById('section-select').value = "";
+
+        document.getElementById('homework-table-title').textContent = 'الجدول اليومي';
+
+        document.getElementById('period-select').value = "";
+
+        document.getElementById('subject-input').value = "";
+
+        document.getElementById('lesson-title-input').value = "";
+
+        document.getElementById('homework-input').value = "";
+
+        manualPeriodSelection = false;
+
+        updateCurrentPeriodDisplayAndSelect();
+
+    }).withFailureHandler(function(error) {
+
+        updateStatus('فشل الحذف: ' + error.message, true, true);
+
+    }).deleteHomework(saveLog);
+
+  }
+
+
+
+  function downloadTableAsImage() {
+
+      const classSelect = document.getElementById('class-select').value;
+
+      const sectionSelect = document.getElementById('section-select').value;
+
+
+
+      if (!classSelect || !sectionSelect) {
+
+           showCustomAlert('الرجاء اختيار فصل وشعبة أولاً لتنزيل جدوله كصورة.', 'error', { showOk: true });
+
+           return;
+
+      }
+
+
+
+      updateStatus('جاري جلب البيانات للصورة...', false, false);
+
+
+
+      google.script.run.withSuccessHandler(function(data) {
+
+            const imageContainer = document.getElementById('imageContainer');
+
+            const imageTableBody = document.getElementById('image-homework-table').getElementsByTagName('tbody')[0];
+
+            const imageClassSectionSpan = document.getElementById('image-class-section');
+
+
+
+            imageTableBody.innerHTML = ''; // Clear previous image table content
+
+            const periodDataIndex = 2; const subjectDataIndex = 3; const lessonDataIndex = 4; const homeworkDataIndex = 5;
+
+            const dataMap = new Map();
+
+             if (data && data.length > 0) {
+
+                 // --- No need to sort 'data' here, map creation handles it ---
+
+                data.forEach(row => {
+
+                  if (row.length > Math.max(periodDataIndex, subjectDataIndex, lessonDataIndex, homeworkDataIndex)) {
+
+                      const period = String(row[periodDataIndex] || '').trim();
+
+                       if (period && ALL_PERIODS.includes(period)) { // Only map known periods
+
+                          dataMap.set(period, {
+
+                             subject: row[subjectDataIndex] || PLACEHOLDER_TEXT,
+
+                             lesson: row[lessonDataIndex] || PLACEHOLDER_TEXT,
+
+                             homework: row[homeworkDataIndex] || PLACEHOLDER_TEXT
+
+                          });
+
+                       } else if (period) { console.warn(`Row contains unknown period '${period}' for ${classSelect}-${sectionSelect}. Skipping in image.`); }
+
+                  } else { console.warn(`Skipping incomplete row during image data map creation for ${classSelect}-${sectionSelect}:`, row); }
+
+                });
+
+            }
+
+
+
+            // Populate image table ensuring ALL_PERIODS order
+
+            ALL_PERIODS.forEach(period => {
+
+              const newRow = imageTableBody.insertRow();
+
+              const periodData = dataMap.get(period);
+
+              newRow.insertCell().textContent = period;
+
+              if (periodData) {
+
+                  newRow.insertCell().textContent = periodData.subject;
+
+                  newRow.insertCell().textContent = periodData.lesson;
+
+                  newRow.insertCell().textContent = periodData.homework;
+
+              } else {
+
+                  // Fill placeholders for missing periods
+
+                  newRow.insertCell().textContent = PLACEHOLDER_TEXT;
+
+                  newRow.insertCell().textContent = PLACEHOLDER_TEXT;
+
+                  newRow.insertCell().textContent = PLACEHOLDER_TEXT;
+
+              }
+
+            });
+
+
+
+            imageClassSectionSpan.textContent = `الصف: ${classSelect} - ${sectionSelect}`;
+
+
+
+            // Generate image
+
+            imageContainer.style.position = 'static'; imageContainer.style.left = 'auto'; imageContainer.style.top = 'auto'; imageContainer.style.opacity = '1'; imageContainer.style.zIndex = 'auto'; imageContainer.style.display = 'inline-block';
+
+
+
+            setTimeout(() => {
+
+                updateStatus('جاري توليد الصورة...', false, false);
+
+                html2canvas(imageContainer, { scale: 2, logging: false, useCORS: true, windowWidth: imageContainer.scrollWidth, windowHeight: imageContainer.scrollHeight })
+
+                .then(canvas => {
+
+                    imageContainer.style.position = 'absolute'; imageContainer.style.left = '-9999px'; imageContainer.style.top = '-9999px'; imageContainer.style.opacity = 0; imageContainer.style.zIndex = -1; imageContainer.style.display = 'none';
+
+                    const imageData = canvas.toDataURL('image/png');
+
+                    const currentDate = new Date().toISOString().slice(0, 10);
+
+                    const filename = `واجبات_${classSelect}_${sectionSelect}_${currentDate}.png`;
+
+
+
+                    updateStatus('جاري حفظ الصورة في Google Drive...', false, false);
+
+
+
+                    google.script.run.withSuccessHandler(function(response) {
+
+                        updateStatus(response, false, true);
+
+                    }).withFailureHandler(function(error) {
+
+                        updateStatus('فشل حفظ الصورة في Google Drive: ' + error.message, true, true);
+
+                         console.error('Apps Script error saving image:', error);
+
+                    }).saveImageToDrive(imageData, filename);
+
+
+
+                }).catch(error => {
+
+                     imageContainer.style.position = 'absolute'; imageContainer.style.left = '-9999px'; imageContainer.style.top = '-9999px'; imageContainer.style.opacity = 0; imageContainer.style.zIndex = -1; imageContainer.style.display = 'none';
+
+                    updateStatus('فشل توليد الصورة: ' + error, true, true);
+
+                    console.error('Image generation failed:', error);
+
+                });
+
+            }, 100); // Delay for rendering
+
+
+
+      }).withFailureHandler(function(error) {
+
+          updateStatus('فشل جلب البيانات للصورة: ' + error.message, true, true);
+
+          console.error('Apps Script error fetching data for image:', error);
+
+      }).getHomeworkData(classSelect, sectionSelect);
+
+  }
+
+
+
+  // Initial load function
+
+  window.onload = function() {
+
+      google.script.run.withSuccessHandler(function() {
+
+          console.log("Backend ready.");
+
+          loadAppData(); // Load main app data AFTER backend is confirmed ready
+
+      }).withFailureHandler(function(error) {
+
+          updateStatus('فشل تهيئة الاتصال بالخادم: ' + error.message, true, true);
+
+           console.error('Apps Script error on initial load/auth check:', error);
+
+           loadAppData(); // Still try to load app data
+
+      }).onLoad();
+
+  };
+
+
+
+</script>
+
+<!-- End Updated JavaScript Section -->
+
+
+
+</body>
+
+</html>
